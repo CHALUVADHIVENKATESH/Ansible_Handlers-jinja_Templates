@@ -1,7 +1,7 @@
 resource "aws_instance" "web-1" {
   ami                         = "ami-04505e74c0741db8d"
   availability_zone           = "us-east-1a"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.nano"
   key_name                    = "LaptopKey"
   subnet_id                   = aws_subnet.subnet1-public.id
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
