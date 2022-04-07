@@ -6,7 +6,7 @@
     become_user: root
     #serial: 1 #Executes the playbook one host at a time.
     pre_tasks:
-    - name: Adding Delay for 15 seconds
+    - name: Adding Delay for 20 seconds
       wait_for:
         timeout: 20
     tasks:
@@ -38,6 +38,9 @@
          ignore_errors: yes #Will Proceed to next task even it failed.
          tags:
            - index
+         notify:
+            - restart nginx
+            - create testfolder in tmp
 
        - name: Copy the style files to  destination folder.
          copy: >
@@ -49,6 +52,9 @@
             mode=0644
          tags:
            - style
+         notify:
+            - restart nginx
+            - create testfolder in tmp
 
        - name: Copy the javascript files to  destination folder.
          copy: >
@@ -60,13 +66,19 @@
             mode=0644
          tags:
            - js
-
-       - name: restart nginx
-         command: service nginx restart
-         tags:
-          - restart
+         notify:
+            - restart nginx
+            - create testfolder in tmp
 
        - name: Delete Git Repo
          shell: rm -rf /tmp/dockertest1
          tags:
           - delete
+    handlers:
+       - name: restart nginx
+         command: service nginx restart
+       - name: create testfolder in tmp
+         shell: |
+           rm -rf /tmp/testfolder
+           mkdir /tmp/testfolder
+           echo 'Welcome To Ansible Handler' >> /tmp/testfolder/testfile
