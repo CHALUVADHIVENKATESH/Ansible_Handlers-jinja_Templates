@@ -7,7 +7,7 @@
     become: yes
     become_user: root
     vars:
-      custom_heading: "Welcome To DevOps B24 Batch Training By Sreeharsha Veerapalli"
+      custom_heading: "Ansible Playbook for Jinja Templates"
       todays_date: "{{ ansible_facts['date_time']['date'] }}"
       host_name: "{{ ansible_facts['hostname'] }}"
       fqdn_name: "{{ ansible_facts['fqdn'] }}"
